@@ -23,7 +23,7 @@ GetOptions(
 	   'c'	=>\$composition, 
           );
 
-my $usage = "\nUsage: $0 -f inputFastaFile -b inputBedFile-o outputFileName\n";
+my $usage = "\nUsage: $0 -f inputFastaFile -b inputBedFile -o outputFileName\n";
 $usage .= "Description : Convert Genome (Fasta, annotations, ... ) into a Pure data readable file (a list)\n";
 $usage .= "Option :    \n";
 $usage .= "            -c Base composition (\%GC) \n";
@@ -44,8 +44,14 @@ unless(defined($BEDfile) && -f $BEDfile ){
     print STDERR $usage;
     exit 1;
 }
+unless(defined($outputName) ){
+    print STDERR "Output file name is missing $!\n";
+    print STDERR $usage;
+    exit 1;
+}
 
-
+### Dealing with Fasta file
+#==========================
 #Open Fasta file and output file
 open(IN, "<$FASTAfile" ) or die "Unable to open $FASTAfile !" ;
 open(OUT, ">$outputName" ) or die "Unable to open $outputName !" ;
@@ -58,6 +64,8 @@ while (my $line = <IN>){
 }
 close IN;
 
+### Dealing with Bed file
+#==========================
 #Open Bed file and store informations
 open(IN, "<$BEDfile" ) or die "Unable to open $FASTAfile !" ;
 my %Bed ; 
@@ -66,6 +74,7 @@ my $FeatureCounter = 0 ;
 while (my $line = <IN>){
 	chomp $line ;
 	my @words = split "\t", $line ;
+	if($words[0] =~ /chr/i){next;}
 	$Bed{"$FeatureCounter"}{"start"} = $words[1] ;
 	$Bed{"$FeatureCounter"}{"stop"} = $words[2] ;
 	$Bed{"$FeatureCounter"}{"strand"} = $words[5] ;
@@ -75,16 +84,25 @@ $FeatureCounter+=1;
 }
 close IN;
 
+foreach my $feature (keys %Bed ){
+	print $feature , "\t", $Bed{$feature}{"type"}, "\t" , $Bed{$feature}{"start"} , "\t", $Bed{$feature}{"stop"}, "\n" ;
+}
+
+
+### Computing and formating result
+#=================================
+
 #Wrapping Sequence
 my $lengthSeq = length($sequence) ;
 my @words = split '', $sequence ;
-my $counter = 0 ;
+my $counter = 1 ;
 foreach my $base ( @words ){
 	my $GCcontent ;
-	print $counter ;
-	print "\n" ;
+#	print $counter ;
+#	print "\n" ;
 	
 	### Dealing with composition (if -c Flag)
+	#========================================
 	if($composition){
 		my $SlidingWindow ;
 		
@@ -127,12 +145,13 @@ foreach my $base ( @words ){
 	}
 	
 	
-	print OUT $base ;
+	print OUT "$counter $base" ;
 	if($composition){
 		print OUT " ".sprintf("%.2f", $GCcontent) ;
 	}
 	
 	# Dealing with Bed Storing structure
+	#===================================
 	my $infosFeature ='' ;
 #	print "$counter " ;
 	foreach my $feature (keys %Bed ){
@@ -140,8 +159,9 @@ foreach my $base ( @words ){
 #		print " " ;
 #		print $Bed{$feature}{"start"} ;
 #		print "\n" ;
-		if( $counter ge $Bed{$feature}{"start"} && $counter le $Bed{$feature}{"stop"} && $Bed{$feature}{"strand"} eq '+' ){
+		if( $counter >= $Bed{$feature}{"start"} && $counter <= $Bed{$feature}{"stop"} && $Bed{$feature}{"strand"} eq '+' ){
 			$infosFeature = $Bed{$feature}{"type"} ;
+#			print $counter , "start: ", $Bed{$feature}{"start"}, "\t", $infosFeature , "\n"
 		}
 	}
 	print OUT " ".$infosFeature ;
@@ -149,6 +169,10 @@ foreach my $base ( @words ){
 	# Preparing next round
 	print OUT "\n" ;
 	$counter+=1;
+	
+	
+#	if($counter eq 30 ){ exit 1;}
+	
 }
 
 
