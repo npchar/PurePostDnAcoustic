@@ -1,0 +1,54 @@
+#N canvas 98 233 1010 537 10;
+#X obj 19 48 cnv 15 400 300 empty empty Storing_n-th_element 20 12
+0 14 -233017 -66577 0;
+#X obj 432 48 cnv 15 400 300 empty empty Comparing-newVsN-1 20 12 0
+14 -233017 -66577 0;
+#X obj 567 355 outlet;
+#X text 20 21 Stores strings \, compare with new one (degree of the
+list is the number of remembered n-1 state);
+#X obj 510 334 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 567 334 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 510 313 select $s1;
+#X obj 567 292 pack s;
+#X obj 476 270 list split 1;
+#X obj 510 292 pack s;
+#X floatatom 545 252 5 0 0 0 - - -;
+#X obj 437 310 print 1;
+#X obj 545 231 - 1;
+#X obj 197 168 queue-list;
+#X obj 197 122 inlet;
+#X obj 254 122 inlet;
+#X text 194 107 symbol;
+#X text 249 107 degree;
+#X msg 71 121 Y;
+#X msg 71 143 X;
+#X obj 197 143 pack s;
+#X obj 197 190 list length;
+#X floatatom 197 211 5 0 0 0 - - -;
+#X floatatom 301 155 5 0 0 0 - - -;
+#X msg 301 135 3;
+#X obj 301 113 loadbang;
+#X connect 5 0 2 0;
+#X connect 6 0 4 0;
+#X connect 6 1 5 0;
+#X connect 7 0 6 1;
+#X connect 8 1 9 0;
+#X connect 8 1 11 0;
+#X connect 9 0 6 0;
+#X connect 10 0 8 1;
+#X connect 12 0 10 0;
+#X connect 13 0 21 0;
+#X connect 13 0 8 0;
+#X connect 14 0 20 0;
+#X connect 15 0 13 1;
+#X connect 18 0 20 0;
+#X connect 19 0 20 0;
+#X connect 20 0 13 0;
+#X connect 20 0 7 0;
+#X connect 21 0 22 0;
+#X connect 22 0 12 0;
+#X connect 23 0 13 1;
+#X connect 24 0 23 0;
+#X connect 25 0 24 0;

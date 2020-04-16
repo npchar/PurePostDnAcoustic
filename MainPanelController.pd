@@ -95,9 +95,11 @@ representations).;
 #X obj 40 65 inlet;
 #X obj 106 51 inlet;
 #X obj 106 90 outlet;
+#X obj 230 86 s BPM;
 #X connect 1 0 5 0;
 #X connect 2 0 4 0;
 #X connect 2 0 11 0;
+#X connect 2 0 12 0;
 #X connect 3 0 7 0;
 #X connect 4 0 5 0;
 #X connect 5 0 3 0;
@@ -150,36 +152,44 @@ representations).;
 -1;
 #N canvas 618 161 450 300 GenomeFrequencyPlaying.pd 0;
 #X restore 13 235 pd GenomeFrequencyPlaying.pd;
-#N canvas 678 199 719 550 readFastaFromBANG.pd 0;
-#X obj 67 37 inlet;
-#X obj 67 60 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+#N canvas 678 139 499 327 readFastaFromBANG.pd 0;
+#X obj 159 43 inlet;
+#X obj 159 66 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
 -1;
-#X text 63 18 Initialize;
-#X obj 85 153 textfile;
-#X msg 102 111 rewind;
-#X obj 67 85 t b b b b;
-#X msg 163 139 print;
-#X obj -8 137 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+#X text 155 24 Initialize;
+#X obj 177 159 textfile;
+#X msg 194 117 rewind;
+#X obj 159 91 t b b b b;
+#X msg 255 145 print;
+#X obj 84 143 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
 -1;
-#X obj -8 109 r GeneralBang;
-#X obj 85 215 s DNABase;
-#X obj 164 170 print list;
-#X obj 85 188 unpack s f;
-#X obj 148 215 s ATCGprop;
-#X msg 151 112 read Genome.list cr;
+#X obj 84 115 r GeneralBang;
+#X obj 106 238 s DNABase;
+#X obj 256 176 print list;
+#X obj 169 238 s ATCGprop;
+#X obj 43 238 s BaseNbr;
+#X obj 238 238 s NameGeneFeature;
+#X obj 177 195 unpack f s f s s s;
+#X obj 349 238 s AA;
+#X obj 382 238 s SecStruct;
+#X msg 243 118 read Genome.tab cr;
 #X connect 0 0 1 0;
 #X connect 1 0 5 0;
 #X connect 3 0 10 0;
-#X connect 3 0 11 0;
+#X connect 3 0 14 0;
 #X connect 4 0 3 0;
 #X connect 5 2 4 0;
-#X connect 5 3 13 0;
+#X connect 5 3 17 0;
 #X connect 6 0 3 0;
 #X connect 7 0 3 0;
 #X connect 8 0 7 0;
-#X connect 11 0 9 0;
-#X connect 11 1 12 0;
-#X connect 13 0 3 0;
+#X connect 14 0 12 0;
+#X connect 14 1 9 0;
+#X connect 14 2 11 0;
+#X connect 14 3 13 0;
+#X connect 14 4 15 0;
+#X connect 14 5 16 0;
+#X connect 17 0 3 0;
 #X restore 45 70 pd readFastaFromBANG.pd;
 #X obj 45 48 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
 -1;
@@ -571,14 +581,14 @@ representations).;
 #X connect 31 0 26 1;
 #X connect 33 0 21 0;
 #X restore 67 455 pd NoiseBandPass.pd;
-#X obj 70 417 hsl 128 15 0 30 0 0 empty empty Gain -2 -8 0 10 -262144
--1 -1 0 1;
+#X obj 70 417 hsl 128 15 0 1 0 0 empty empty Gain -2 -8 0 10 -262144
+-1 -1 10300 1;
 #X floatatom 67 436 5 0 0 0 - - -;
 #X floatatom 67 475 5 0 0 0 - - -;
-#X obj 138 568 hsl 80 20 0 30 0 0 empty empty Gain -2 -8 0 10 -262144
--1 -1 0 1;
+#X obj 138 568 hsl 80 20 0 1 0 0 empty empty Gain -2 -8 0 10 -262144
+-1 -1 1300 1;
 #X floatatom 135 587 5 0 0 0 - - -;
-#N canvas 54 143 511 453 FrequencyBandPass 0;
+#N canvas 250 201 511 453 FrequencyBandPass 0;
 #X obj 144 4 r DNABase;
 #X obj 144 46 select A T C G;
 #X obj 164 69 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
@@ -665,9 +675,9 @@ representations).;
 #X restore 94 617 pd FrequencyBandPass;
 #X floatatom 94 639 5 0 0 0 - - -;
 #X obj 69 544 vsl 15 128 300 1200 0 0 empty empty Hz 0 -9 0 10 -262144
--1 -1 0 1;
-#X obj 613 217 r ATCGprop;
-#X floatatom 613 241 5 0 0 0 - - -;
+-1 -1 200 1;
+#X obj 573 220 r ATCGprop;
+#X floatatom 573 242 5 0 0 0 - - -;
 #X text -6 25 ### Initialization:;
 #X text -3 206 #### Section 1: Global Genome Reading:;
 #X text 0 260 ### Section 2: Genes reading:;
@@ -678,7 +688,7 @@ representations).;
 ;
 #X floatatom 94 319 5 0 0 0 - - -;
 #X obj 97 300 hsl 128 15 0 1000 0 0 empty empty bpm -2 -8 0 10 -262144
--1 -1 0 1;
+-1 -1 12700 1;
 #X msg 181 319;
 #X floatatom 22 363 5 0 0 0 - - -;
 #X text 64 48 Bang to load the file;
@@ -686,17 +696,17 @@ representations).;
 #X obj 46 143 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
 -1;
 #X text 65 143 Reset counter;
-#N canvas 776 167 655 572 ColorFromATCGprop.pd 0;
+#N canvas 776 167 655 572 ColorFromATCGprop.pd 1;
 #X obj 53 136 hsl 80 20 0 1 0 0 empty empty empty -2 -8 0 10 -262144
--1 -1 0 1;
+-1 -1 1700 1;
 #X floatatom 50 161 5 0 0 0 - - -;
 #X obj 50 181 s WetGC;
 #X obj 156 136 hsl 80 20 0 1 0 0 empty empty empty -2 -8 0 10 -262144
--1 -1 0 1;
+-1 -1 1900 1;
 #X floatatom 153 162 5 0 0 0 - - -;
 #X obj 153 182 s DryGC;
 #X obj 260 136 hsl 80 20 0 1 0 0 empty empty empty -2 -8 0 10 -262144
--1 -1 0 1;
+-1 -1 4900 1;
 #X floatatom 257 160 5 0 0 0 - - -;
 #X obj 257 181 s RoomsizeGC;
 #X obj 17 51 -;
@@ -712,15 +722,12 @@ representations).;
 #X connect 6 0 7 0;
 #X connect 7 0 8 0;
 #X connect 9 0 10 0;
-#X connect 10 0 1 0;
-#X connect 10 0 4 0;
-#X connect 10 0 7 0;
 #X connect 11 0 13 0;
 #X connect 12 0 9 1;
 #X connect 13 0 9 0;
 #X connect 14 0 12 0;
 #X restore 275 578 pd ColorFromATCGprop.pd;
-#N canvas 616 50 824 476 patch2dac.pd 0;
+#N canvas 69 45 824 476 patch2dac.pd 1;
 #X obj 248 207 freeverb~;
 #X msg 132 110 wet \$1;
 #X msg 113 152 dry \$1;
@@ -817,7 +824,7 @@ representations).;
 #X restore 480 67 pd patch2dac.pd;
 #X floatatom 68 682 5 0 0 0 - - -;
 #X text 272 558 # Reverb patch:;
-#N canvas 609 91 734 484 GraphicRendering.pd 0;
+#N canvas 609 91 734 484 GraphicRendering.pd 1;
 #X obj 149 196 gemwin;
 #X obj 68 109 outlet;
 #X obj 68 30 inlet;
@@ -845,7 +852,6 @@ representations).;
 #X msg 74 431 text Bases° : \$1;
 #X floatatom 81 369 5 0 0 0 - - -;
 #X floatatom 243 370 5 0 0 0 - - -;
-#X msg 303 175 color 0.9 0.9 0.9;
 #X obj 339 370 gemhead;
 #X obj 339 391 translateXYZ;
 #X obj 339 462 text2d;
@@ -857,7 +863,6 @@ representations).;
 #X msg 81 348 3.3;
 #X msg 243 350 3.7;
 #X msg 390 349 2.9;
-#X msg 92 277 color 0 0 0;
 #X msg 555 253 draw fill;
 #X obj 537 299 polygon 5;
 #X obj 245 249 gemhead;
@@ -867,13 +872,15 @@ representations).;
 #X floatatom 296 255 5 0 0 0 - - -;
 #X floatatom 333 256 5 0 0 0 - - -;
 #X floatatom 371 256 5 0 0 0 - - -;
-#X obj 245 291 color 1 1 1;
 #X obj 521 143 gemhead;
 #X obj 521 164 translateXYZ;
-#X floatatom 572 149 5 0 0 0 - - -;
+#X floatatom 574 146 5 0 0 0 - - -;
 #X floatatom 609 150 5 0 0 0 - - -;
 #X floatatom 647 150 5 0 0 0 - - -;
 #X obj 521 185 color 1 1 1;
+#X obj 245 291 color 0 0 0;
+#X obj 15 335 color 0 0 0;
+#X msg 303 174 color 1 1 1;
 #X connect 2 0 3 0;
 #X connect 3 0 4 0;
 #X connect 3 0 7 0;
@@ -883,9 +890,12 @@ representations).;
 #X connect 5 0 1 0;
 #X connect 6 0 0 0;
 #X connect 7 0 0 0;
+#X connect 7 0 34 0;
+#X connect 7 0 35 0;
+#X connect 7 0 36 0;
 #X connect 8 0 0 0;
 #X connect 9 0 0 0;
-#X connect 10 0 11 0;
+#X connect 10 0 53 0;
 #X connect 11 0 12 0;
 #X connect 13 0 12 1;
 #X connect 15 0 23 0;
@@ -897,30 +907,31 @@ representations).;
 #X connect 23 0 12 0;
 #X connect 24 0 11 2;
 #X connect 25 0 17 2;
-#X connect 26 0 0 0;
+#X connect 26 0 27 0;
 #X connect 27 0 28 0;
-#X connect 28 0 29 0;
-#X connect 30 0 29 1;
-#X connect 32 0 28 2;
-#X connect 33 0 34 0;
-#X connect 34 0 29 0;
-#X connect 35 0 24 0;
-#X connect 36 0 25 0;
-#X connect 37 0 32 0;
-#X connect 39 0 40 0;
-#X connect 41 0 43 0;
-#X connect 43 0 48 0;
-#X connect 44 0 42 1;
-#X connect 45 0 43 1;
-#X connect 46 0 43 2;
-#X connect 47 0 43 3;
-#X connect 48 0 42 0;
-#X connect 49 0 50 0;
-#X connect 50 0 54 0;
-#X connect 51 0 50 1;
-#X connect 52 0 50 2;
-#X connect 53 0 50 3;
-#X connect 54 0 40 0;
+#X connect 29 0 28 1;
+#X connect 31 0 27 2;
+#X connect 32 0 33 0;
+#X connect 33 0 28 0;
+#X connect 34 0 24 0;
+#X connect 35 0 25 0;
+#X connect 36 0 31 0;
+#X connect 37 0 38 0;
+#X connect 39 0 41 0;
+#X connect 41 0 52 0;
+#X connect 42 0 40 1;
+#X connect 43 0 41 1;
+#X connect 44 0 41 2;
+#X connect 45 0 41 3;
+#X connect 46 0 47 0;
+#X connect 47 0 51 0;
+#X connect 48 0 47 1;
+#X connect 49 0 47 2;
+#X connect 50 0 47 3;
+#X connect 51 0 38 0;
+#X connect 52 0 40 0;
+#X connect 53 0 11 0;
+#X connect 54 0 0 0;
 #X restore 821 690 pd GraphicRendering.pd;
 #X floatatom 874 172 0 0 0 0 - - -;
 #X obj 874 115 cputime;
@@ -993,9 +1004,9 @@ representations).;
 #X obj 190 636 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
 1;
 #X text 425 22 #### Audio rendering :;
-#X obj 480 44 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+#X obj 480 44 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
 1;
-#N canvas 398 122 694 683 WideBass.pd 0;
+#N canvas 336 112 694 683 WideBass.pd 0;
 #X obj 204 478 dac~;
 #X obj 178 97 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
 -1;
@@ -1105,7 +1116,7 @@ representations).;
 #X connect 49 0 1 0;
 #X connect 50 0 8 1;
 #X coords 0 0 10 10 0 0 0;
-#X restore 632 473 pd WideBass.pd;
+#X restore 631 473 pd WideBass.pd;
 #N canvas 302 119 732 617 PanControler.pd 0;
 #X obj 240 207 expr ($f1*$f2/2)-$f2/4;
 #X obj 389 183 f 3.14159;
@@ -1290,11 +1301,11 @@ representations).;
 #X connect 63 0 37 0;
 #X connect 64 0 63 1;
 #X restore 551 782 pd TestBassLucas.pd;
-#X obj 276 382 hsl 128 15 0 30 0 0 empty empty Gain -2 -8 0 10 -262144
+#X obj 276 382 hsl 128 15 0 1 0 0 empty empty Gain -2 -8 0 10 -262144
 -1 -1 0 1;
 #X floatatom 273 401 5 0 0 0 - - -;
 #X text 260 357 # Strereo Bass Generator;
-#N canvas 172 191 538 533 StereoBassGenerator.pd 0;
+#N canvas 894 26 538 533 StereoBassGenerator.pd 0;
 #X obj 115 269 *~;
 #X obj 217 283 env~;
 #X floatatom 217 305 5 0 0 0 - - -;
@@ -1351,8 +1362,8 @@ representations).;
 #X connect 25 0 9 0;
 #X restore 273 420 pd StereoBassGenerator.pd;
 #X text 440 357 # Phasor Bass Generator;
-#X obj 458 384 hsl 128 15 0 30 0 0 empty empty Gain -2 -8 0 10 -262144
--1 -1 0 1;
+#X obj 458 384 hsl 128 15 0 1 0 0 empty empty Gain -2 -8 0 10 -262144
+-1 -1 5600 1;
 #X floatatom 455 403 5 0 0 0 - - -;
 #N canvas 436 318 480 429 PhasorBassGenerator.pd 0;
 #X obj 210 82 osc~ 95;
@@ -1383,7 +1394,7 @@ representations).;
 #X connect 12 0 4 0;
 #X connect 13 0 0 0;
 #X restore 454 425 pd PhasorBassGenerator.pd;
-#N canvas 499 243 915 499 BassLine.pd 0;
+#N canvas 390 332 915 499 BassLine.pd 0;
 #X obj 210 82 osc~ 95;
 #X obj 126 53 phasor~ 95;
 #X obj 127 94 lop~;
@@ -1411,7 +1422,7 @@ representations).;
 #X obj 433 73 / 60;
 #X obj 157 316 bp~ 400 10;
 #X floatatom 589 214 5 0 0 0 - - -;
-#X obj 617 96 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+#X obj 566 32 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
 -1;
 #X floatatom 594 87 5 0 0 0 - - -;
 #X obj 594 179 line, f 18;
@@ -1474,16 +1485,16 @@ representations).;
 #X connect 40 0 37 0;
 #X connect 41 0 36 0;
 #X connect 42 0 28 0;
-#X restore 689 387 pd BassLine.pd;
-#X obj 692 347 hsl 128 15 0 30 0 0 empty empty Gain -2 -8 0 10 -262144
--1 -1 0 1;
-#X floatatom 689 367 5 0 0 0 - - -;
+#X restore 643 426 pd BassLine.pd;
+#X obj 646 386 hsl 128 15 0 1 0 0 empty empty Gain -2 -8 0 10 -262144
+-1 -1 12700 1;
+#X floatatom 643 406 5 0 0 0 - - -;
 #X msg 21 610 321.2;
 #X msg 22 639 470;
 #X msg 23 667 342;
 #X msg 18 696 349.6;
 #X msg -16 629 370.8;
-#N canvas 473 115 450 371 crackle.pd 1;
+#N canvas 473 115 450 371 crackle.pd 0;
 #X msg 92 31 @freq 3;
 #X msg 188 31 @freq 50;
 #X obj 92 60 noise.crackle~;
@@ -1500,10 +1511,142 @@ representations).;
 #X connect 3 0 8 0;
 #X connect 4 0 3 1;
 #X connect 5 0 3 1;
-#X restore 929 455 pd crackle.pd;
-#X obj 932 411 hsl 128 15 0 30 0 0 empty empty Gain -2 -8 0 10 -262144
--1 -1 0 1;
-#X floatatom 929 431 5 0 0 0 - - -;
+#X restore 798 430 pd crackle.pd;
+#X obj 801 386 hsl 128 15 0 1 0 0 empty empty Gain -2 -8 0 10 -262144
+-1 -1 7800 1;
+#X floatatom 798 406 5 0 0 0 - - -;
+#X floatatom 646 243 5 0 0 0 - - -;
+#X obj 646 220 r NameGeneFeature;
+#N canvas 632 160 754 638 AminoAcids.pd 0;
+#X obj 164 69 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 144 69 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 204 69 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 184 69 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 144 25 symbol;
+#X obj 144 4 r AminoAcids;
+#X obj 144 46 select A R N D B C E Q Z G H I L K M F P S T W Y V,
+f 74;
+#X obj 244 69 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 224 69 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 284 69 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 264 69 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 324 69 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 304 69 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 364 69 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 344 69 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 404 69 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 384 69 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 444 69 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 424 69 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 484 69 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 464 69 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 524 69 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 504 69 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 564 69 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 544 69 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 585 69 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X floatatom 65 30 5 0 0 0 - - -;
+#X obj 65 7 r BasePM;
+#X obj 164 229 osc~;
+#X obj 179 286 line~;
+#X msg 191 267 0 100;
+#X obj 164 305 *~;
+#X msg 179 248 1 100;
+#X obj 164 335 dac~;
+#X msg 164 207 392;
+#X obj 14 128 metro 250;
+#X obj 65 103 %;
+#X msg 80 80 2;
+#X obj 46 164 + 1;
+#X obj 14 164 i;
+#X obj 14 146 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 163 176 % 8;
+#X obj 268 219 osc~;
+#X obj 283 276 line~;
+#X msg 295 257 0 100;
+#X obj 268 295 *~;
+#X msg 283 238 1 100;
+#X obj 268 325 dac~;
+#X msg 268 197 349.23;
+#X connect 4 0 6 0;
+#X connect 5 0 4 0;
+#X connect 6 0 1 0;
+#X connect 6 1 0 0;
+#X connect 6 2 3 0;
+#X connect 6 3 2 0;
+#X connect 6 4 8 0;
+#X connect 6 5 7 0;
+#X connect 6 6 10 0;
+#X connect 6 7 9 0;
+#X connect 6 8 12 0;
+#X connect 6 9 11 0;
+#X connect 6 10 14 0;
+#X connect 6 11 13 0;
+#X connect 6 12 16 0;
+#X connect 6 13 15 0;
+#X connect 6 14 18 0;
+#X connect 6 15 17 0;
+#X connect 6 16 20 0;
+#X connect 6 17 19 0;
+#X connect 6 18 22 0;
+#X connect 6 19 21 0;
+#X connect 6 20 24 0;
+#X connect 6 21 23 0;
+#X connect 6 22 25 0;
+#X connect 26 0 36 0;
+#X connect 27 0 26 0;
+#X connect 28 0 31 0;
+#X connect 29 0 31 1;
+#X connect 30 0 29 0;
+#X connect 31 0 33 0;
+#X connect 31 0 33 1;
+#X connect 32 0 29 0;
+#X connect 34 0 28 0;
+#X connect 35 0 40 0;
+#X connect 36 0 35 1;
+#X connect 37 0 36 1;
+#X connect 38 0 39 1;
+#X connect 39 0 38 0;
+#X connect 40 0 39 0;
+#X connect 42 0 45 0;
+#X connect 43 0 45 1;
+#X connect 44 0 43 0;
+#X connect 45 0 47 0;
+#X connect 45 0 47 1;
+#X connect 46 0 43 0;
+#X connect 48 0 42 0;
+#X restore 714 785 pd AminoAcids.pd;
+#X obj 929 312 BassDrop;
+#X obj 385 662 MarkovChain;
+#X obj 590 621 rnorm;
+#X floatatom 589 708 5 0 0 0 - - -;
+#X floatatom 590 602 5 0 0 0 - - -;
+#X obj 586 578 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
 #X connect 1 0 6 0;
 #X connect 3 0 49 0;
 #X connect 4 0 3 0;
@@ -1557,3 +1700,7 @@ representations).;
 #X connect 96 0 56 0;
 #X connect 98 0 99 0;
 #X connect 99 0 97 0;
+#X connect 101 0 100 0;
+#X connect 105 0 106 0;
+#X connect 107 0 105 0;
+#X connect 108 0 107 0;
